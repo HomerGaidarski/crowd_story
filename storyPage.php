@@ -72,13 +72,12 @@ if (isset($_POST['vote_up'])) {
         }
         
 
-        
+        $query3 = "UPDATE story SET total_votes=total_votes + 1 WHERE story_id=?";
         if ($max_votes_per <= $curr_sentence_votes + 1) {
             $query = "DELETE FROM sentence WHERE story_id=?";
             $query2 = "UPDATE story SET text=CONCAT(text, ?) WHERE story_id=?";
         } else {
             $query = "UPDATE sentence SET vote_count=vote_count + 1 WHERE id=?";
-            
         }
         if ($stmt = $mysqli->prepare($query)) {
             if (!isset($query2)) {
@@ -106,12 +105,24 @@ if (isset($_POST['vote_up'])) {
             $query = "UPDATE story SET total_sentences=total_sentences + 1 WHERE story_id=?";
             $total_sentences++;
             if ($stmt = $mysqli->prepare($query)) {
-                $stmt->bind_param("i", $story_id);
+                $stmt->bind_param("i", $id);
                 if (!$stmt->execute()) {
                     ragequit();
                 }
             }
             
+            $stmt->close();
+        }
+    
+        
+        if ($stmt = $mysqli->prepare($query3)) {
+        echo "blah";
+            $stmt->bind_param("i", $id);
+            if (!$stmt->execute())
+                ragequit();
+            echo "adding 1 to total";
+            $stmt->store_result();
+            $stmt->fetch();
             $stmt->close();
         }
     }

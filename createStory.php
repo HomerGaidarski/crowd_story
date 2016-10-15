@@ -102,7 +102,7 @@
                 <div class="col-md-4"></div>
                 
                 <div class="form-group col-md-4 "> 
-                    <input class="btn btn-primary center-block" value=" Send" type="submit">
+                    <input href="index.php" class="btn btn-primary center-block" value=" Send" type="submit" href="index.php">
                 </div>
 
                 
