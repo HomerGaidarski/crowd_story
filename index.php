@@ -119,8 +119,8 @@
                         <a id="links" href="<?php echo "/storyPage.php?id=", $story->id;?>">
                             <div class="col-md-4"><?php echo $story->title;?></div>
                         </a>
-                        <div class="col-md-4" id="sentences"><?php echo $story->first;?></div>
-                        <div style="float:right;" type="button">+<?php echo $story->total_votes;?><div class="btn glyphicon glyphicon-circle-arrow-up"></div>
+                        <div class="col-md-6" id="sentences"><?php echo $story->first;?></div>
+                        <div style="float:right;" type="button">+<?php echo $story->total_votes;?>
                     </div>
                 </td>      
                 </tr>

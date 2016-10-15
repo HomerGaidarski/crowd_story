@@ -34,27 +34,82 @@
                     ragequit();
                 }
                 
+    } else {
+        echo "feelsbadman";
+        ragequit();
     }
 
-    if (isset($_POST["upboat"]) && !isset($_SESSION['voted'])) {
-        $query = "UPDATE sentence SET vote_count = (vote_count + 1) WHERE id = ",  ";"
-    }
     
-    if (isset($_POST['nextSentence'])) {
+    if (isset($_POST['nextSentence']) && !empty($_POST['nextSentence'])) {
         $query = "INSERT INTO sentence (story_id, text) VALUES(?, ?)";
         if ($stmt = $mysqli->prepare($query)) {
-            echo $_GET['id'];
             $stmt->bind_param("is", $story_id, $_POST['nextSentence']);
             if (!$stmt->execute()) {
                 ragequit();
             }
             
             $stmt->close();
+            $query = "UPDATE story SET total_sentences=total_sentences + 1 WHERE story_id=?";
+            if ($stmt = $mysqli->prepare($query)) {
+                $stmt->bind_param("i", $story_id);
+                if (!$stmt->execute()) {
+                    ragequit();
+                }
+            }
+            
+            $stmt->close();
+            }
         } else {
             echo 'bk';
         }
-    } else
-        echo 'you are so bad';
+
+
+if (isset($_POST['vote_up'])) {
+        $sentence_id = $_POST['vote_up'];
+        echo "pokemon gotta ketchup them all: ", $sentence_id ;
+        $query = "SELECT text, vote_count FROM sentence WHERE id=?";
+        if ($stmt = $mysqli->prepare($query)) {
+            $stmt->bind_param("i", $sentence_id);
+            if (!$stmt->execute()) {
+                ragequit();
+            }
+            $stmt->store_result();
+            $stmt->bind_result($sentence_text, $curr_sentence_votes);
+            $stmt->fetch();
+            $stmt->close();
+        }
+        
+
+        
+        if ($max_votes_per <= $curr_sentence_votes + 1) {
+            $query = "DELETE FROM sentence WHERE story_id=?";
+            $query2 = "UPDATE story SET text=CONCAT(text, ?) WHERE story_id=?";
+        } else {
+            $query = "UPDATE sentence SET vote_count=vote_count + 1 WHERE id=?";      
+        }
+        if ($stmt = $mysqli->prepare($query)) {
+            if (!isset($query2)) {
+                $stmt->bind_param("i", $sentence_id);
+            } else {
+                $stmt->bind_param("i", $id);
+            }
+            if (!$stmt->execute())
+                ragequit();
+            $stmt->store_result();
+            $stmt->fetch();
+            $stmt->close();
+        }
+    
+        if (isset($query2) && $stmt = $mysqli->prepare($query2)) {
+            echo "you suck", $sentence_text;
+            $sentence_text = " " . $sentence_text;
+            $stmt->bind_param("si", $sentence_text, $id);
+            if (!$stmt->execute())
+                ragequit();
+            $text = $text . $sentence_text;
+            $stmt->close();
+        }
+    }
         ?>
 <html>
     <head>
@@ -124,7 +179,8 @@
         <br>            <br>
         <div class="md-4"></div> <div class="md-4"><h4></h4><?php echo $text;?></h4></div> <div class="md-4"></div>
         <br>
-        <br>            
+        <br>
+    
         <label for="comment">Your sentence:</label>
         <input class="form-control" rows="5" name="nextSentence" type="text">
 
@@ -176,34 +232,34 @@
                     //   echo "hello4";
                     for ($i=0, $arr=[]; $stmt->fetch(); $i++) {
                         $row = new stdClass();
-                        $row->id = $story_id;
-                        $row->title = $title;
+                        $row->id = $id;
+                        $row->story_id = $story_id;
                         $row->first = $first;
                         $row->total_votes = $total_votes;
+                        $row->vote_count = $vote_count;
                         $arr[$i] = $row;
                     }
             
                     $stmt->close(); // close prepare statement
                 }
-        ?>
-                <?php
+    
                   foreach($arr as $i => $sentence) {?>
                 <tr>
                   <th scope="row"><?php echo $i+1;?></th>
                     <td>
                         <h6><?php echo $sentence->first;?></h6>
-                        <div style="float:right;" type="button">+<?php echo $story->total_votes;?>
-                            <input name="upboat" class="btn glyphicon glyphicon-circle-arrow-up">
-                        </div>
+                        <div style="float:right;">+<?php echo $sentence->vote_count;?><input name="vote_up" class="btn glyphicon glyphicon-circle-arrow-up" type="submit" value="<?php echo $sentence->id?>">
                     </td>
                 </tr>
                 <?php }?>
               </tbody>
             </table>
-        </form>
-        
+        </form> 
     </body>
     
 </html>
 
-<?php $mysqli->close();?>
+<?php
+
+    $mysqli->close();
+?>
