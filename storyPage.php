@@ -1,4 +1,4 @@
- <?php
+<?php
     session_start();
     
     if (!isset($_SESSION['mysql'])) {
@@ -8,9 +8,10 @@
 
 
     function ragequit() {
-        echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-        header('Location: /');
-        $mysqli->close();
+        if (isset($stmt) && isset($mysqli)) {
+            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            $mysqli->close();
+        }
         exit;
     }
     if (isset($_GET["id"])) {

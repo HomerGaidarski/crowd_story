@@ -1,3 +1,4 @@
+<?php session_start();?>
 <html>
     <head>
   <title>Crowd Stories</title>
@@ -16,7 +17,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
      
     <style>
-    
         
         .row {
             background-color: beige;
@@ -61,6 +61,7 @@
           <a class="navbar-brand" href="/">Crowd Stories</a>
         </div>
         <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Home</a></li>
           <li><a href="createStory.php">Start a Story</a></li> 
         </ul>
         </div>
@@ -80,7 +81,7 @@
             <form method="post" action="createStory.php">
                 <div class="form-group">
                 <label for="formGroupExampleInput">Story Title:</label>
-                <input type="text" class="form-control" name="title" placeholder="Title" >
+                <input type="text" class="form-control" name="title" placeholder="Title" value="dfsdfasdf">
                 </div>
                 <div class="form-group">
                 <label for="formGroupExampleInput2">Initial Sentence:</label>
@@ -94,15 +95,11 @@
                 <label for="formGroupExampleInput2">Votes to append to story:</label>
                 <input type="text" class="form-control" name="max_votes" placeholder="Default: 5">
                 </div>
-                </div>
-                <div class="col-md-4"></div>
-            </div>
-                
                 <div class="container">
                 <div class="col-md-4"></div>
-                
-                <div class="form-group col-md-4 "> 
-                    <input href="index.php" class="btn btn-primary center-block" value=" Send" type="submit" href="index.php">
+
+                <div class="form-group"> 
+                    <input class="btn btn-primary center-block" value=" Send" type="submit">
                 </div>
 
                 
@@ -112,7 +109,7 @@
             </form>
             </div> 
             <div class="col-md-4"></div> 
-            
+            </div>
         
             <br>
             

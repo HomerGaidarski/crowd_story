@@ -1,4 +1,6 @@
-        <?php
+     
+<?php
+session_start();
                 $mysqli =  mysqli_connect('localhost', 'homer', 'harambe', 'crowd_stories');            
                 $query = "SELECT story_id, title, first_sentence, total_votes FROM story ORDER BY total_votes DESC";
 
@@ -89,6 +91,7 @@
             <a class="navbar-brand" href="/">Crowd Stories</a>
             </div>
             <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
                 <li><a href="createStory.php">Start a Story</a></li>
             </ul>
         </div>
@@ -118,8 +121,8 @@
                         <a id="links" href="<?php echo "/storyPage.php?id=", $story->id;?>">
                             <div class="col-md-4"><?php echo $story->title;?></div>
                         </a>
-                        <div class="col-md-6" id="sentences"><?php echo $story->first;?></div>
-                        <div style="float:right;" type="button">+<?php echo $story->total_votes;?>
+                        <div class="col-md-4" id="sentences"><?php echo $story->first;?></div>
+                        <div style="float:right;" type="button">+<?php echo $story->total_votes;?><div class="btn glyphicon glyphicon-circle-arrow-up"></div>
                     </div>
                 </td>      
                 </tr>
