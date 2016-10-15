@@ -202,7 +202,7 @@ if (isset($_POST['vote_up'])) {
         
         <?php if ($total_sentences < $max_num_sentences){ ?><label for="comment">Your sentence:</label><input class="form-control" rows="5" name="nextSentence" type="text"><?php }?>
 
-    </div>
+    
     <br>
     <br>
     <?php if ($total_sentences < $max_num_sentences){ ?>
@@ -268,7 +268,7 @@ if (isset($_POST['vote_up'])) {
                         <h6><?php echo $sentence->first;?></h6>
                         <div style="float:right;">+<?php echo $sentence->vote_count;?>
                             <?php if (isset($_SESSION['canVote']) && $_SESSION['canVote'][$_GET['id']]) {
-                            ?><div name="vote_up" class="btn glyphicon glyphicon-circle-arrow-up" type="submit" value="<?php echo $sentence->id?>"></div><?php
+                            ?><input name="vote_up" class="btn glyphicon glyphicon-circle-arrow-up" type="submit" value="<?php echo $sentence->id?>"><?php
                                 }
                             ?>
                             
