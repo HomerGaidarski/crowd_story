@@ -58,6 +58,7 @@
 
 
 if (isset($_POST['vote_up'])) {
+        $_SESSION['canVote'][$_GET['id']] = false;
         $sentence_id = $_POST['vote_up'];
         
         $query = "SELECT text, vote_count FROM sentence WHERE id=?";
@@ -265,7 +266,12 @@ if (isset($_POST['vote_up'])) {
                   <th scope="row"><?php echo $i+1;?></th>
                     <td>
                         <h6><?php echo $sentence->first;?></h6>
-                        <div style="float:right;">+<?php echo $sentence->vote_count;?><input name="vote_up" class="btn glyphicon glyphicon-circle-arrow-up" type="submit" value="<?php echo $sentence->id?>">
+                        <div style="float:right;">+<?php echo $sentence->vote_count;?>
+                            <?php if (isset($_SESSION['canVote']) && $_SESSION['canVote'][$_GET['id']]) {
+                            ?><div name="vote_up" class="btn glyphicon glyphicon-circle-arrow-up" type="submit" value="<?php echo $sentence->id?>"></div><?php
+                                }
+                            ?>
+                            
                     </td>
                 </tr>
                 <?php }?>

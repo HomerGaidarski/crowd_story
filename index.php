@@ -1,6 +1,9 @@
      
 <?php
-session_start();
+    session_start();
+    
+    
+
                 $mysqli =  mysqli_connect('localhost', 'homer', 'harambe', 'crowd_stories');            
                 $query = "SELECT story_id, title, first_sentence, total_votes FROM story ORDER BY total_votes DESC";
 
@@ -16,7 +19,11 @@ session_start();
                     //  echo "hello3";
                     $stmt->bind_result($story_id, $title, $first_sentence, $total_votes);
             
-                    //   echo "hello4";
+                    $initialize = false;
+                    if (!isset($_SESSION['canVote'])) {
+                        $canVote = [];
+                        $initialize = true;
+                    }   
                     for ($i=0, $arr=[]; $stmt->fetch(); $i++) {
                         $row = new stdClass();
                         $row->id = $story_id;
@@ -24,6 +31,12 @@ session_start();
                         $row->first = $first_sentence;
                         $row->total_votes = $total_votes;
                         $arr[$i] = $row;
+                        if ($initialize) {
+                            $canVote[$story_id] = true;
+                        }
+                    }
+                    if (!isset($_SESSION_['canVote'])) {
+                        $_SESSION['canVote'] = $canVote;
                     }
             
                     $stmt->close(); // close prepare statement
