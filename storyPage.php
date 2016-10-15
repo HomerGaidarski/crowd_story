@@ -58,7 +58,7 @@
 
 
 if (isset($_POST['vote_up'])) {
-        $_SESSION['canVote'][$_GET['id']] = false;
+       
         $sentence_id = $_POST['vote_up'];
         
         $query = "SELECT text, vote_count FROM sentence WHERE id=?";
@@ -118,11 +118,9 @@ if (isset($_POST['vote_up'])) {
     
         
         if ($stmt = $mysqli->prepare($query3)) {
-        echo "blah";
             $stmt->bind_param("i", $id);
             if (!$stmt->execute())
                 ragequit();
-            echo "adding 1 to total";
             $stmt->store_result();
             $stmt->fetch();
             $stmt->close();
@@ -267,10 +265,8 @@ if (isset($_POST['vote_up'])) {
                     <td>
                         <h6><?php echo $sentence->first;?></h6>
                         <div style="float:right;">+<?php echo $sentence->vote_count;?>
-                            <?php if (isset($_SESSION['canVote']) && $_SESSION['canVote'][$_GET['id']]) {
-                            ?><input name="vote_up" class="btn glyphicon glyphicon-circle-arrow-up" type="submit" value="<?php echo $sentence->id?>"><?php
-                                }
-                            ?>
+                            
+                          <input name="vote_up" class="btn glyphicon glyphicon-circle-arrow-up" type="submit" value="<?php echo $sentence->id?>">
                             
                     </td>
                 </tr>

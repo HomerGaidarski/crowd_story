@@ -81,7 +81,7 @@
             <form method="post" action="createStory.php">
                 <div class="form-group">
                 <label for="formGroupExampleInput">Story Title:</label>
-                <input type="text" class="form-control" name="title" placeholder="Title" value="dfsdfasdf">
+                <input type="text" class="form-control" name="title" placeholder="Title">
                 </div>
                 <div class="form-group">
                 <label for="formGroupExampleInput2">Initial Sentence:</label>
@@ -95,20 +95,22 @@
                 <label for="formGroupExampleInput2">Votes to append to story:</label>
                 <input type="text" class="form-control" name="max_votes" placeholder="Default: 5">
                 </div>
-                <div class="container">
+            </div>
+                <div class="col-md-4"></div>
+                </div>
+            
                 <div class="col-md-4"></div>
 
-                <div class="form-group"> 
+                <div class="col-md-4"> <div class="form-group"> 
                     <input class="btn btn-primary center-block" value=" Send" type="submit">
                 </div>
-
+                </div>
                 
-
                 <div class="col-md-4"></div>
-            </div>
+                
             </form>
             </div> 
-            <div class="col-md-4"></div> 
+            
             </div>
         
             <br>
