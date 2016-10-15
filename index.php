@@ -89,7 +89,6 @@
             <a class="navbar-brand" href="/">Crowd Stories</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
                 <li><a href="createStory.php">Start a Story</a></li>
             </ul>
         </div>

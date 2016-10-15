@@ -16,6 +16,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
      
     <style>
+    
         
         .row {
             background-color: beige;
@@ -60,7 +61,6 @@
           <a class="navbar-brand" href="/">Crowd Stories</a>
         </div>
         <ul class="nav navbar-nav">
-          <li class="active"><a href="/">Home</a></li>
           <li><a href="createStory.php">Start a Story</a></li> 
         </ul>
         </div>

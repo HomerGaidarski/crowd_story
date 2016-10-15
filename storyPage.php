@@ -1,5 +1,6 @@
  <?php
     session_start();
+    
     if (!isset($_SESSION['mysql'])) {
         $mysqli = mysqli_connect('localhost', 'homer', 'harambe', 'crowd_stories');   
     }
@@ -49,24 +50,15 @@
             }
             
             $stmt->close();
-            $query = "UPDATE story SET total_sentences=total_sentences + 1 WHERE story_id=?";
-            if ($stmt = $mysqli->prepare($query)) {
-                $stmt->bind_param("i", $story_id);
-                if (!$stmt->execute()) {
-                    ragequit();
-                }
-            }
-            
-            $stmt->close();
             }
         } else {
-            echo 'bk';
+            
         }
 
 
 if (isset($_POST['vote_up'])) {
         $sentence_id = $_POST['vote_up'];
-        echo "pokemon gotta ketchup them all: ", $sentence_id ;
+        
         $query = "SELECT text, vote_count FROM sentence WHERE id=?";
         if ($stmt = $mysqli->prepare($query)) {
             $stmt->bind_param("i", $sentence_id);
@@ -85,7 +77,8 @@ if (isset($_POST['vote_up'])) {
             $query = "DELETE FROM sentence WHERE story_id=?";
             $query2 = "UPDATE story SET text=CONCAT(text, ?) WHERE story_id=?";
         } else {
-            $query = "UPDATE sentence SET vote_count=vote_count + 1 WHERE id=?";      
+            $query = "UPDATE sentence SET vote_count=vote_count + 1 WHERE id=?";
+            
         }
         if ($stmt = $mysqli->prepare($query)) {
             if (!isset($query2)) {
@@ -101,12 +94,24 @@ if (isset($_POST['vote_up'])) {
         }
     
         if (isset($query2) && $stmt = $mysqli->prepare($query2)) {
-            echo "you suck", $sentence_text;
+            
             $sentence_text = " " . $sentence_text;
             $stmt->bind_param("si", $sentence_text, $id);
             if (!$stmt->execute())
                 ragequit();
             $text = $text . $sentence_text;
+            $stmt->close();
+            
+            
+            $query = "UPDATE story SET total_sentences=total_sentences + 1 WHERE story_id=?";
+            $total_sentences++;
+            if ($stmt = $mysqli->prepare($query)) {
+                $stmt->bind_param("i", $story_id);
+                if (!$stmt->execute()) {
+                    ragequit();
+                }
+            }
+            
             $stmt->close();
         }
     }
@@ -162,12 +167,12 @@ if (isset($_POST['vote_up'])) {
           <a class="navbar-brand" href="/">Crowd Stories</a>
         </div>
         <ul class="nav navbar-nav">
-          <li class="active"><a href="/">Home</a></li>
           <li><a href="createStory.php">Start a Story</a></li>
         </div>
     </nav>
-
+    <?php if ($total_sentences < $max_num_sentences) {?>
         <form action="storyPage.php?id=<?php echo $id;?>" method="post">
+    <?php }?>
     <div class=" container-fixed container">
             
     
@@ -181,13 +186,13 @@ if (isset($_POST['vote_up'])) {
         <br>
         <br>
     
-        <label for="comment">Your sentence:</label>
-        <input class="form-control" rows="5" name="nextSentence" type="text">
+        
+        <?php if ($total_sentences < $max_num_sentences){ ?><label for="comment">Your sentence:</label><input class="form-control" rows="5" name="nextSentence" type="text"><?php }?>
 
     </div>
     <br>
     <br>
-    
+    <?php if ($total_sentences < $max_num_sentences){ ?>
     <div class="col-md-4"></div><div class="col-md-6"></div><div class="col-md-2 center-block"><input type="submit" class="btn btn-primary center-block"></div>
     
     <table class="table table-inverse">
@@ -254,7 +259,9 @@ if (isset($_POST['vote_up'])) {
                 <?php }?>
               </tbody>
             </table>
-        </form> 
+        <?php } if ($total_sentences < $max_num_sentences) 
+                echo '</form>' 
+            ?>
     </body>
     
 </html>
