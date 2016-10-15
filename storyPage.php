@@ -266,7 +266,7 @@ if (isset($_POST['vote_up'])) {
                         <h6><?php echo $sentence->first;?></h6>
                         <div style="float:right;">+<?php echo $sentence->vote_count;?>
                             
-                          <input name="vote_up" class="btn glyphicon glyphicon-circle-arrow-up" type="submit" value="<?php echo $sentence->id?>">
+                            <button name="vote_up" class="btn glyphicon glyphicon-circle-arrow-up" type="submit" value="<?php echo $sentence->id?>"></button>
                             
                     </td>
                 </tr>
